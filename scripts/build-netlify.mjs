@@ -10,7 +10,8 @@ const assets = [
   'app.js',
   'navigation.js',
   'file-protocol-guard.js',
-  'EVALUATION_MANIFEST.json'
+  'EVALUATION_MANIFEST.json',
+  'risk-engine.mjs'
 ];
 
 await fs.rm(publishDir, { recursive: true, force: true });

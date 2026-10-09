@@ -1,0 +1,55 @@
+{
+  "project": "PAUSE — AI Digital Bodyguard",
+  "version": "6.0.0",
+  "competition": "PromptWars x Error Zero",
+  "track": "AI-Powered Cybersecurity & Digital Safety",
+  "problemStatement": "With the increasing use of digital platforms, phishing, fraudulent websites, malicious messages and identity theft pose significant challenges. Build an intelligent system that can identify suspicious activity and help users make safer decisions online.",
+  "expectedOutcome": "A functional prototype that identifies or analyzes a cybersecurity threat and provides actionable security recommendations.",
+  "evaluationDimensions": {
+    "Code Quality": {
+      "evidence": ["risk-engine.mjs", "api/analyze.mjs", "api/vaccine.mjs", "api/security.mjs", "bounded JSON schemas", "ESM Node 24"],
+      "qualitySignals": ["separation of concerns", "shared server guards", "normalized model output", "no dynamic code execution"]
+    },
+    "Security": {
+      "evidence": ["api/security.mjs", "SECURITY.md", "server-only secrets", "same-origin enforcement", "request limits", "MIME allow-list", "rate limiting", "security headers", "input redaction", "prompt-injection boundary"],
+      "qualitySignals": ["does not fetch user-supplied suspicious URLs", "no API key in frontend", "no-store API responses"]
+    },
+    "Efficiency": {
+      "evidence": ["browser image compression", "Promise.all evidence checks", "Safe Browsing cache", "Fact Check cache", "bounded payloads", "request timeouts"],
+      "qualitySignals": ["cheap local indicators before AI synthesis", "conditional Search grounding"]
+    },
+    "Testing": {
+      "evidence": ["tests/*.test.mjs", "57 existing checks plus evaluator/deployment assertions", "npm test", "npm run check", "npm run quality", ".github/workflows/quality.yml"],
+      "expectedCurrentCount": 88
+    },
+    "Accessibility": {
+      "evidence": ["semantic landmarks", "ARIA", "keyboard modal handling", "focus-visible styles", "reduced motion", "skip link", "drag/drop and clipboard alternatives", "ACCESSIBILITY.md"]
+    },
+    "Google Services": {
+      "evidence": ["@google/genai", "Gemini multimodal analysis", "Gemini Threat Vaccine", "Google Search grounding", "Google Safe Browsing v5", "Google Fact Check Tools API", "Vertex AI route", "Cloud Run deployment", "Secret Manager deployment posture"],
+      "servicePurpose": "Every Google integration contributes evidence, model reasoning, reputation checks, reviewed-claim lookup, or Google Cloud execution."
+    },
+    "Problem Statement Alignment": {
+      "evidence": ["PROBLEM_STATEMENT.md", "exact statement embedded in index.html", "challenge metadata in API prompt and response", "requirement-to-feature map", "actionable recommendation workflow", "message/URL/screenshot modalities"],
+      "requirements": ["identify suspicious activity", "analyze phishing / fraudulent websites / malicious messages / identity theft", "help users make safer decisions", "provide actionable security recommendations", "functional prototype"]
+    }
+  },
+  "differentiator": "Threat Vaccine Lab — Same tactic. New skin. PAUSE turns detected manipulation into a safe fictional mutation, tests the user's recognition of the tactic, and reinforces a personalized defensive memory rule.",
+  "googleServices": [
+    "Google Gemini / Google Gen AI SDK",
+    "Google Search grounding",
+    "Google Safe Browsing v5",
+    "Google Fact Check Tools API",
+    "Google Vertex AI / Gemini",
+    "Google Cloud Run / Secret Manager deployment path"
+  ],
+  "localVerification": {
+    "commands": ["npm run check", "npm test", "npm run quality"],
+    "expectedTests": 88
+  },
+  "deployment": {
+    "primaryGoogleCloudPath": "Cloud Run + Vertex AI",
+    "alternativeServerlessPath": "Vercel + Gemini Developer API",
+    "healthEndpoint": "/api/health"
+  }
+}
