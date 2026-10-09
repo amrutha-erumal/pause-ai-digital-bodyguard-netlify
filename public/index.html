@@ -52,6 +52,8 @@
         <a class="nav-btn" href="#how" data-scroll="how">How it works</a>
       </nav>
       <div class="top-actions">
+        <button class="theme-btn" id="themeToggleBtn" type="button" title="Switch visual theme" aria-label="Switch visual theme"><span>⚡</span> <span id="themeName">Obsidian</span></button>
+        <button class="sound-btn" id="soundToggleBtn" type="button" title="Toggle cyber sound FX" aria-label="Toggle cyber audio effects"><span id="soundIcon">🔊</span></button>
         <div class="engine-pill" role="status" aria-live="polite"><i></i><span id="engineLabel">Demo intelligence</span></div>
         <button class="icon-btn" id="settingsBtn" type="button" title="AI engine and service status" aria-label="Open AI engine and service status">⚙</button>
       </div>
@@ -94,13 +96,20 @@
           </div>
 
           <div class="upload-area hidden" id="imageInputArea">
-            <input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp" hidden>
+            <input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp" hidden aria-label="Upload screenshot image">
             <button class="upload-box" id="uploadBox" type="button" aria-label="Upload a screenshot for visual analysis">
               <span class="upload-icon">▣</span>
               <strong>Drop a screenshot here</strong>
               <span>or click to choose an image</span>
               <small>PNG, JPG or WebP • up to 8 MB</small>
             </button>
+
+            <div class="image-sample-row">
+              <span class="image-sample-label">⚡ OR TRY SAMPLE SCREENSHOT:</span>
+              <button type="button" class="image-sample-chip" data-sample-image="bank">📱 Urgent Bank Freeze SMS</button>
+              <button type="button" class="image-sample-chip" data-sample-image="crypto">💎 Crypto Airdrop DM</button>
+              <button type="button" class="image-sample-chip" data-sample-image="delivery">📦 Courier Parcel Fee</button>
+            </div>
 
             <div class="image-preview hidden" id="imagePreviewWrap">
               <img id="imagePreview" alt="Selected screenshot preview">
@@ -212,7 +221,7 @@
 
         <div class="trap-grid">
           <div class="trap-card glass">
-            <div class="panel-title"><div><div class="mini-label">WHY I FLAGGED IT</div><h3>Show me the trap</h3></div><button type="button" class="danger-mark" id="attackerViewBtn" title="Reveal attacker view">!</button></div>
+            <div class="panel-title"><div><div class="mini-label">WHY I FLAGGED IT</div><h3>Show me the trap</h3></div><button type="button" class="danger-mark" id="attackerViewBtn" title="Reveal attacker view" aria-label="Reveal attacker view">!</button></div>
             <div id="trapList" class="trap-list"></div>
           </div>
           <div class="attack-card glass">
@@ -224,6 +233,40 @@
         <div class="action-banner">
           <div class="action-left"><span class="shield-icon">◆</span><div><div class="mini-label">DO THIS NOW</div><h3 id="actionHeadline">Don't click the link. Verify through the official app.</h3><p id="actionDetail">Use a known official channel rather than the contact details in the message.</p></div></div>
           <button type="button" class="primary-btn" id="reportBtn">Create safety report <span>→</span></button>
+        </div>
+
+        <div class="agent-interrogate-card glass" id="agentInterrogateCard">
+          <div class="panel-title">
+            <div>
+              <div class="mini-label">INTERACTIVE AGENT INTELLIGENCE</div>
+              <h3>Interrogate Threat Manipulation</h3>
+            </div>
+            <span class="tiny-badge agent-active-badge">AI AGENT ACTIVE</span>
+          </div>
+          <p class="interrogate-desc">Ask Agent PAUSE to dissect manipulation psychology, estimate fallout, or generate defensive counter-tactics in real time:</p>
+          <div class="question-chips-row">
+            <button type="button" class="question-chip" data-query="why">🔍 Why is this a trap?</button>
+            <button type="button" class="question-chip" data-query="fallout">⚠️ What damage if I clicked?</button>
+            <button type="button" class="question-chip" data-query="verify">🛡️ How to verify safely?</button>
+            <button type="button" class="question-chip" data-query="scammer">🎭 Attacker psychology</button>
+            <button type="button" class="question-chip" data-query="reply">✍️ Generate safe defensive reply</button>
+          </div>
+          <div class="custom-query-row">
+            <input type="text" id="agentQueryInput" class="agent-query-input" placeholder="Ask the agent anything about this specific threat…" aria-label="Ask the agent anything about this specific threat">
+            <button type="button" class="primary-btn sm-query-btn" id="askAgentBtn">Ask Agent <span>↗</span></button>
+          </div>
+          <div class="agent-dialogue-box" id="agentDialogueBox" aria-live="polite">
+            <div class="agent-meta-header">
+              <span class="agent-avatar-icon">⚡</span>
+              <div>
+                <strong>AGENT PAUSE // TACTICAL DISPATCH</strong>
+                <small id="agentDialogueStatus">READY • TAP A QUESTION ABOVE OR TYPE YOUR OWN</small>
+              </div>
+            </div>
+            <div class="agent-dialogue-content" id="agentDialogueContent">
+              I am monitoring this threat profile. Select one of the tactical queries above or type your question to analyze the manipulation vector, target payload, or defensive countermeasures.
+            </div>
+          </div>
         </div>
 
         <div class="breakpoint-strip glass">
@@ -254,6 +297,12 @@
 
           <div class="vaccine-card glass">
             <div class="panel-title"><div><div class="mini-label">MUTATION MODE</div><h3>Same tactic. New skin.</h3></div><span id="mutationState" class="tiny-badge">READY</span></div>
+            <div class="mutation-level-row">
+              <span class="mini-label">DIFFICULTY:</span>
+              <button type="button" class="level-chip active" data-level="1">L1: Email</button>
+              <button type="button" class="level-chip" data-level="2">L2: Urgent SMS</button>
+              <button type="button" class="level-chip" data-level="3">L3: Spearphish</button>
+            </div>
             <div class="mutation-box" id="mutationBox">
               <div class="mutation-meta"><span id="mutationChannel">SIMULATED EMAIL • VARIANT A</span><span id="mutationPressure">TACTIC: —</span></div>
               <p id="mutationText">Run a threat scan first. PAUSE will generate a safe, fictional variation that preserves the manipulation pattern while changing the wording and context.</p>

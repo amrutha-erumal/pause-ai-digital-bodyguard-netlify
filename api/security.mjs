@@ -19,8 +19,11 @@ export function sendJson(res, status, body) {
 export function sameOrigin(req) {
   const origin = req.headers.origin;
   if (!origin) return true;
+  const host = req.headers['x-forwarded-host'] || req.headers.host;
   try {
-    return new URL(origin).host === req.headers.host;
+    const originHost = new URL(origin).host;
+    if (originHost === host || originHost === req.headers.host) return true;
+    return originHost.split(':')[0] === String(host).split(':')[0];
   } catch {
     return false;
   }

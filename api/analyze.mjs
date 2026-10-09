@@ -268,11 +268,26 @@ async function analyzeWithGemini({ text, image, safeBrowsing, factCheck }) {
   };
   if (useSearchGrounding) config.tools = [{ googleSearch: {} }];
 
-  const response = await ai.models.generateContent({
-    model: MODEL,
-    contents: [{ role: 'user', parts }],
-    config
-  });
+  let response;
+  try {
+    response = await ai.models.generateContent({
+      model: MODEL,
+      contents: [{ role: 'user', parts }],
+      config
+    });
+  } catch (err) {
+    if (useSearchGrounding) {
+      const fallbackConfig = { ...config };
+      delete fallbackConfig.tools;
+      response = await ai.models.generateContent({
+        model: MODEL,
+        contents: [{ role: 'user', parts }],
+        config: fallbackConfig
+      });
+    } else {
+      throw err;
+    }
+  }
 
   const raw = response.text || '';
   const parsed = validateModel(parseModelJson(raw));

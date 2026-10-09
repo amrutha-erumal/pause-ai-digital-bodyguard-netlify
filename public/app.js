@@ -311,6 +311,8 @@ function renderResult(data) {
   renderGoogleCheck(data);
   renderFactCheck(data);
   prepareVaccine(data);
+  initAgentDialogue(data);
+  if (data.score >= 70) playAlert(); else playSuccess();
 
   $('analysisTitle').textContent = 'Threat profile built.';
   results.classList.remove('hidden');
@@ -518,7 +520,375 @@ tabs.forEach((tab) => tab.addEventListener('click', () => {
   $('textInputArea').classList.toggle('hidden', mode !== 'text');
   $('imageInputArea').classList.toggle('hidden', mode !== 'image');
   if (mode === 'image') setImageModeUI();
+  playBlip(540, 0.05);
 }));
+
+// --- Dynamic Cyber Theme Engine ---
+const THEMES = ['obsidian', 'quantum', 'vanguard', 'arctic'];
+const THEME_NAMES = {
+  obsidian: 'Obsidian',
+  quantum: 'Quantum',
+  vanguard: 'Vanguard',
+  arctic: 'Arctic'
+};
+
+function initTheme() {
+  const saved = localStorage.getItem('pause_theme') || 'obsidian';
+  setTheme(saved);
+}
+
+function setTheme(theme) {
+  const current = THEMES.includes(theme) ? theme : 'obsidian';
+  document.documentElement.dataset.theme = current;
+  localStorage.setItem('pause_theme', current);
+  const label = $('themeName');
+  if (label) label.textContent = THEME_NAMES[current] || 'Obsidian';
+}
+
+function cycleTheme() {
+  const current = document.documentElement.dataset.theme || 'obsidian';
+  const next = THEMES[(THEMES.indexOf(current) + 1) % THEMES.length];
+  setTheme(next);
+  playBlip(620, 0.06);
+  showToast(`Switched theme to ${THEME_NAMES[next]}`);
+}
+
+const themeToggleBtn = $('themeToggleBtn');
+if (themeToggleBtn) themeToggleBtn.addEventListener('click', cycleTheme);
+
+// --- Synthesized Cyber Audio Engine (Web Audio API) ---
+let audioCtx = null;
+let soundEnabled = localStorage.getItem('pause_sound') !== 'false';
+
+function initSound() {
+  updateSoundUI();
+}
+
+function updateSoundUI() {
+  const icon = $('soundIcon');
+  if (icon) icon.textContent = soundEnabled ? '🔊' : '🔇';
+  const btn = $('soundToggleBtn');
+  if (btn) btn.setAttribute('title', soundEnabled ? 'Audio feedback: ON' : 'Audio feedback: MUTED');
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  localStorage.setItem('pause_sound', String(soundEnabled));
+  updateSoundUI();
+  if (soundEnabled) playSuccess();
+  showToast(soundEnabled ? 'Cyber sound effects enabled' : 'Sound effects muted');
+}
+
+const soundToggleBtn = $('soundToggleBtn');
+if (soundToggleBtn) soundToggleBtn.addEventListener('click', toggleSound);
+
+function getAudioContext() {
+  if (!audioCtx && typeof AudioContext !== 'undefined') {
+    audioCtx = new AudioContext();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function playBlip(freq = 580, duration = 0.08, type = 'sine') {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+  } catch {}
+}
+
+function playSuccess() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+      setTimeout(() => playBlip(freq, 0.12, 'triangle'), i * 75);
+    });
+  } catch {}
+}
+
+function playAlert() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    [440, 392, 330].forEach((freq, i) => {
+      setTimeout(() => playBlip(freq, 0.14, 'sawtooth'), i * 90);
+    });
+  } catch {}
+}
+
+// --- Synthetic Screenshot Presets Engine ---
+function createSyntheticScreenshot(type) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 750;
+  canvas.height = 1000;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+
+  // Background gradient: sleek dark phone screen
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, 1000);
+  bgGrad.addColorStop(0, '#0a0f1d');
+  bgGrad.addColorStop(1, '#05070f');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, 750, 1000);
+
+  // Status Bar
+  ctx.fillStyle = '#f8fafc';
+  ctx.font = 'bold 26px -apple-system, system-ui, sans-serif';
+  ctx.fillText('9:41', 40, 52);
+  ctx.textAlign = 'right';
+  ctx.fillText('5G  100%', 710, 52);
+  ctx.textAlign = 'left';
+
+  // Header / Navigation bar
+  ctx.fillStyle = '#111827';
+  ctx.fillRect(0, 76, 750, 96);
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, 172);
+  ctx.lineTo(750, 172);
+  ctx.stroke();
+
+  let sender = 'SMS Alert';
+  let timestamp = 'Today 9:40 AM';
+  let title = 'CRITICAL SECURITY ALERT';
+  let message = '';
+  let link = '';
+  let badgeColor = '#ff3366';
+
+  if (type === 'bank') {
+    sender = '+1 (800) 555-0199 • Bank Fraud Desk';
+    title = 'CHASE // ACCOUNT RESTRICTION';
+    message = 'URGENT: Suspicious debit attempt of $2,450.00 detected from an unverified device. Your card is temporarily locked. Tap below to verify identity within 15 minutes:';
+    link = 'https://secure-chase-fraud-verify.com/auth';
+  } else if (type === 'crypto') {
+    sender = 'Discord Nitro Official Bot';
+    title = 'COMMUNITY AIRDROP';
+    message = 'CONGRATULATIONS! Your account was randomly selected for 1 Year Discord Nitro + 0.25 ETH reward. Claim your voucher before allocation expires:';
+    link = 'https://discord-nitro-gift-claims.xyz/airdrop';
+    badgeColor = '#8b5cf6';
+  } else {
+    sender = 'USPS Delivery Notification';
+    title = 'PACKAGE DELIVERY HOLD';
+    message = 'USPS: Parcel tracking #US9400100984 cannot be delivered due to incomplete street address. A $1.95 redelivery handling fee is required to reschedule:';
+    link = 'https://usps-reschedule-delivery-fee.link/track';
+    badgeColor = '#f59e0b';
+  }
+
+  // Sender info
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '22px -apple-system, system-ui, sans-serif';
+  ctx.fillText(sender, 40, 122);
+  ctx.fillStyle = '#64748b';
+  ctx.font = '17px -apple-system, system-ui, sans-serif';
+  ctx.fillText(timestamp, 40, 154);
+
+  // Notification Card Bubble
+  ctx.fillStyle = '#1e293b';
+  ctx.beginPath();
+  ctx.roundRect(36, 210, 678, 380, 20);
+  ctx.fill();
+  ctx.strokeStyle = badgeColor;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Badge tag
+  ctx.fillStyle = badgeColor;
+  ctx.beginPath();
+  ctx.roundRect(60, 240, 310, 38, 8);
+  ctx.fill();
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 18px -apple-system, system-ui, sans-serif';
+  ctx.fillText(title, 75, 265);
+
+  // Message text (wrapped)
+  ctx.fillStyle = '#f1f5f9';
+  ctx.font = '24px -apple-system, system-ui, sans-serif';
+  const words = message.split(' ');
+  let line = '';
+  let y = 330;
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' ';
+    const metrics = ctx.measureText(testLine);
+    if (metrics.width > 620 && n > 0) {
+      ctx.fillText(line, 60, y);
+      line = words[n] + ' ';
+      y += 36;
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line, 60, y);
+
+  // Suspicious Link Highlight
+  y += 46;
+  ctx.fillStyle = '#38bdf8';
+  ctx.font = 'bold 22px -apple-system, system-ui, sans-serif';
+  ctx.fillText('Tap to verify: ' + link, 60, y);
+
+  // Attacker pressure warning label
+  ctx.fillStyle = '#cbd5e1';
+  ctx.font = 'italic 18px -apple-system, system-ui, sans-serif';
+  ctx.fillText('Immediate action required within 15 minutes to avoid suspension.', 60, y + 40);
+
+  return canvas;
+}
+
+async function loadSampleScreenshot(type) {
+  const canvas = createSyntheticScreenshot(type);
+  if (!canvas) return;
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+  if (!blob) return;
+  const file = new File([blob], `sample-${type}-alert.png`, { type: 'image/png' });
+  await loadImageFile(file);
+  playBlip(750, 0.08);
+  showToast(`Sample screenshot loaded. Click 'Run visual PAUSE agent'!`);
+}
+
+document.querySelectorAll('.image-sample-chip').forEach((button) => {
+  button.addEventListener('click', () => loadSampleScreenshot(button.dataset.sampleImage));
+});
+
+// --- Interactive Agent Intelligence Interrogation ---
+function initAgentDialogue(data) {
+  const dialogueContent = $('agentDialogueContent');
+  const dialogueStatus = $('agentDialogueStatus');
+  if (!dialogueContent) return;
+  document.querySelectorAll('.question-chip').forEach((c) => c.classList.remove('active'));
+  if (dialogueStatus) dialogueStatus.textContent = `READY • THREAT SCORE ${Math.round(data.score)}/100`;
+  dialogueContent.textContent = `PAUSE Agent is online and analyzing this ${data.classification} signal. Select a question above or type your question below to interrogate the attack mechanism.`;
+}
+
+function answerAgentQuery(queryKey, customText = '') {
+  const data = lastResult || localSignals(inputText.value.trim() || 'Urgent security alert');
+  const dialogueContent = $('agentDialogueContent');
+  const dialogueStatus = $('agentDialogueStatus');
+  if (!dialogueContent) return;
+
+  let response = '';
+  const score = Math.round(data.score || 85);
+  const target = data.target || 'Credentials / Financial authorization';
+  const manipulation = data.manipulation || 'Urgency + Impersonation';
+
+  if (queryKey === 'why') {
+    response = `TACTICAL DECOMPOSITION:\n` +
+      `• Primary Vector: ${manipulation}\n` +
+      `• Target Objective: ${target}\n` +
+      `• The attacker relies on cognitive compression: shortening your window of skepticism with artificial urgency so you bypass standard verification.\n` +
+      `• Notice the channel diversion: instead of directing you to an in-app portal or physical card support number, it forces an unauthenticated external route.`;
+  } else if (queryKey === 'fallout') {
+    response = `SIMULATED ATTACKER FALLOUT:\n` +
+      `• If clicked: The link typically presents a reverse-proxy clone of the authentic login or payment screen.\n` +
+      `• If credentials entered: Session tokens or MFA prompts are relayed live to the threat actor's command server within seconds.\n` +
+      `• Identity Exposure: High risk of immediate account takeover, unauthorized funds transfer, or credential stuffing.`;
+  } else if (queryKey === 'verify') {
+    response = `ZERO-RISK INDEPENDENT VERIFICATION PLAYBOOK:\n` +
+      `1. DO NOT tap any link or call numbers provided in this message.\n` +
+      `2. Open your smartphone or browser and navigate directly to the official app or bookmarked banking/service domain.\n` +
+      `3. Inspect your verified notification center or dial the verified support number from the physical back of your card.\n` +
+      `4. If legitimate, the alert will be prominently displayed in your authenticated inbox.`;
+  } else if (queryKey === 'scammer') {
+    response = `ATTACKER PSYCHOLOGY RECONSTRUCTION:\n` +
+      `• Mindset: Social engineers know fear of immediate loss triggers adrenaline, suppressing rational skepticism.\n` +
+      `• Scale: Threat actors blast tens of thousands of automated templates hoping for a 1-2% response rate.\n` +
+      `• Weapon: Trust borrowing. They do not hack the bank's servers; they impersonate the institution's brand reputation.`;
+  } else if (queryKey === 'reply') {
+    response = `RECOMMENDED DEFENSIVE ACTION:\n` +
+      `• Best Practice: Do not reply. Replying confirms your phone number or email is active and monitored, increasing future targeting.\n` +
+      `• In corporate environments: Forward the raw header and screenshot to your internal security operations desk.\n` +
+      `• In mobile messaging: Use 'Report Junk / Phishing' and immediately block the sender identifier.`;
+  } else {
+    const q = (customText || '').toLowerCase();
+    if (q.includes('safe') || q.includes('legit') || q.includes('real')) {
+      response = `ASSESSMENT: Given the risk score of ${score}/100 and detected ${manipulation}, this pattern has near-zero probability of being legitimate official correspondence. Real institutions do not threaten immediate account termination via urgent unauthenticated links.`;
+    } else if (q.includes('money') || q.includes('cost') || q.includes('pay') || q.includes('card')) {
+      response = `FINANCIAL RISK: The signal indicates a lure targeting financial credentials or an unauthorized fee. Never authorize transactions or provide card CVV numbers through links originating in SMS or unverified emails.`;
+    } else {
+      response = `TACTICAL AGENT ANALYSIS (${score}/100 Risk):\n` +
+        `Regarding "${customText}":\n` +
+        `This threat profile actively exploits ${manipulation} to target ${target}. The safest operational response is to discard the message and verify via an out-of-band channel.`;
+    }
+  }
+
+  playBlip(820, 0.08);
+  if (dialogueStatus) dialogueStatus.textContent = `ACTIVE RESPONSE // ${new Date().toLocaleTimeString()}`;
+  typewriterText(dialogueContent, response);
+}
+
+function typewriterText(element, text) {
+  element.textContent = '';
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    element.textContent = text;
+    return;
+  }
+  let index = 0;
+  const timer = setInterval(() => {
+    if (index < text.length) {
+      element.textContent += text.charAt(index);
+      index++;
+    } else {
+      clearInterval(timer);
+    }
+  }, 8);
+}
+
+document.querySelectorAll('.question-chip').forEach((button) => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('.question-chip').forEach((c) => c.classList.remove('active'));
+    button.classList.add('active');
+    answerAgentQuery(button.dataset.query);
+  });
+});
+
+const askAgentBtn = $('askAgentBtn');
+if (askAgentBtn) {
+  askAgentBtn.addEventListener('click', () => {
+    const val = $('agentQueryInput')?.value.trim();
+    if (val) {
+      answerAgentQuery('custom', val);
+    } else {
+      showToast('Type a question for the agent first.');
+    }
+  });
+}
+
+const agentQueryInput = $('agentQueryInput');
+if (agentQueryInput) {
+  agentQueryInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      askAgentBtn?.click();
+    }
+  });
+}
+
+// Vaccine Difficulty Level Selection
+let vaccineDifficulty = 1;
+document.querySelectorAll('.level-chip').forEach((button) => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('.level-chip').forEach((c) => c.classList.remove('active'));
+    button.classList.add('active');
+    vaccineDifficulty = Number(button.dataset.level || 1);
+    playBlip(700, 0.06);
+    showToast(`Vaccine difficulty set to Level ${vaccineDifficulty}`);
+  });
+});
 
 // Screenshot click / drag-drop / clipboard paste.
 $('uploadBox').addEventListener('click', () => $('imageInput').click());
@@ -551,6 +921,7 @@ setImageModeUI();
 function loadSample(key) {
   inputText.value = samples[key];
   document.querySelector('[data-mode="text"]').click();
+  playBlip(680, 0.06);
   showToast('Sample loaded. Run the PAUSE agent.');
 }
 document.querySelectorAll('.quick-chip').forEach((button) => button.addEventListener('click', () => loadSample(button.dataset.sample)));
@@ -906,3 +1277,5 @@ inputText.addEventListener('keydown', (event) => {
 
 // Health status is useful in a judging walkthrough and never exposes secrets.
 refreshHealth();
+initTheme();
+initSound();

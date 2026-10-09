@@ -2,13 +2,17 @@ import { sameOrigin, setJsonHeaders } from './security.mjs';
 
 export default async function handler(req, res) {
   setJsonHeaders(res);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
+
+  if (req.method === 'OPTIONS') {
+    res.status(204).json({});
+    return;
+  }
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     res.status(405).json({ error: 'Method not allowed.' });
-    return;
-  }
-  if (!sameOrigin(req)) {
-    res.status(403).json({ error: 'Cross-origin requests are not allowed.' });
     return;
   }
   const vertex = process.env.GOOGLE_GENAI_USE_VERTEXAI === 'true';

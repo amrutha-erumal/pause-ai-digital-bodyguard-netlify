@@ -93,6 +93,7 @@ async function serveStatic(req, res) {
     const target = stat.isDirectory() ? path.join(filePath, 'index.html') : filePath;
     const body = await fs.readFile(target);
     securityHeaders(res);
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', MIME[path.extname(target).toLowerCase()] || 'application/octet-stream');
     res.setHeader('Cache-Control', path.extname(target) === '.html' ? 'no-store' : 'public, max-age=300');
     res.statusCode = 200;

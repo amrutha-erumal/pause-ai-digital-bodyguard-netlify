@@ -19,4 +19,7 @@ await fs.mkdir(publishDir, { recursive: true });
 for (const asset of assets) {
   await fs.copyFile(path.join(root, asset), path.join(publishDir, asset));
 }
+try {
+  await fs.cp(path.join(root, 'src'), path.join(publishDir, 'src'), { recursive: true });
+} catch {}
 console.log(`PAUSE static assets copied to ${publishDir}`);
