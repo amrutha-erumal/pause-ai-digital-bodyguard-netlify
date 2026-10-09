@@ -1,0 +1,21 @@
+{
+  "name": "pause-ai-digital-bodyguard",
+  "version": "6.0.1",
+  "private": true,
+  "description": "PAUSE is an explainable AI digital safety agent aligned to PromptWars Challenge 3, using Google Gemini, Search grounding, Safe Browsing, Fact Check evidence, optional Vertex AI, and a defensive Threat Vaccine Lab.",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check server.mjs && node --check navigation.js && node --check app.js && node --check risk-engine.mjs && node --check api/analyze.mjs && node --check api/vaccine.mjs && node --check api/health.mjs && node --check api/security.mjs && node --check file-protocol-guard.js",
+    "quality": "npm run check && npm test",
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "cloud:check": "npm run check && npm test",
+    "test:coverage": "node --test --experimental-test-coverage tests/*.test.mjs",
+    "build": "node scripts/build-netlify.mjs"
+  },
+  "dependencies": {
+    "@google/genai": "^2.27.0"
+  }
+}

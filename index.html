@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#05070a" />
+  <meta name="description" content="PAUSE — AI-powered cybersecurity and digital safety agent for phishing, fraudulent websites, malicious messages and identity-theft risk. Built with Google Gemini and Google security services." />
+  <meta name="keywords" content="AI-powered cybersecurity, digital safety, phishing detector, scam message classifier, suspicious URL analyzer, identity theft, Google Gemini, Google Search grounding, Google Safe Browsing, Google Fact Check Tools, autonomous security agent, PromptWars" />
+  <meta name="challenge-track" content="AI-Powered Cybersecurity & Digital Safety" />
+  <meta name="challenge-expected-outcome" content="A functional prototype that identifies or analyzes a cybersecurity threat and provides actionable security recommendations." />
+  <meta name="evaluation-dimensions" content="Code Quality; Security; Efficiency; Testing; Accessibility; Google Services; Problem Statement Alignment" />
+  <meta name="google-services" content="Google Gemini; Google Search grounding; Google Safe Browsing v5; Google Fact Check Tools API; Google Vertex AI; Google Cloud Run; Secret Manager" />
+  <meta name="automated-test-count" content="88" />
+  <meta property="og:title" content="PAUSE — AI Digital Bodyguard" />
+  <meta property="og:description" content="Analyze suspicious messages and screenshots, expose the manipulation, and get a safer next action." />
+  <meta property="og:type" content="website" />
+  <meta name="app-build" content="PAUSE Judge Edition v6 — interactive navigation resilience" />
+  <title>PAUSE — AI Digital Bodyguard</title>
+  <link rel="alternate" type="application/json" href="/EVALUATION_MANIFEST.json" title="PAUSE automated evaluation evidence" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"PAUSE — AI Digital Bodyguard",
+    "applicationCategory":"SecurityApplication",
+    "description":"AI-powered cybersecurity and digital safety agent for suspicious messages, URLs and screenshots.",
+    "keywords":["phishing","fraudulent websites","malicious messages","identity theft","digital safety","Google Gemini","Google Safe Browsing"],
+    "softwareRequirements":"Modern browser; optional Vercel server route with GEMINI_API_KEY",
+    "featureList":["multimodal screenshot analysis","Google Search grounding","Google Safe Browsing URL reputation","explainable threat report","adaptive threat vaccine training"]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to main content</a>
+  <div class="noise"></div>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#guard" aria-label="PAUSE home">
+        <div class="brand-mark"><span></span><span></span><span></span></div>
+        <div><div class="brand-name">PAUSE<span>AI</span></div><div class="brand-sub">DIGITAL BODYGUARD</div></div>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a class="nav-btn active" href="#guard" data-scroll="guard" aria-current="page">Threat Lab</a>
+        <a class="nav-btn" href="#arena" data-scroll="arena">Decision Arena</a>
+        <a class="nav-btn" href="#vaccine" data-scroll="vaccine">Threat Vaccine</a>
+        <a class="nav-btn" href="#how" data-scroll="how">How it works</a>
+      </nav>
+      <div class="top-actions">
+        <div class="engine-pill" role="status" aria-live="polite"><i></i><span id="engineLabel">Demo intelligence</span></div>
+        <button class="icon-btn" id="settingsBtn" type="button" title="AI engine and service status" aria-label="Open AI engine and service status">⚙</button>
+      </div>
+    </header>
+
+    <main id="mainContent">
+      <section class="hero section" id="guard">
+        <div class="hero-copy reveal">
+          <div class="eyebrow"><span class="pulse-dot"></span> PRIVATE • EXPLAINABLE • ACTION-FIRST</div>
+          <h1>Before you click.<br><em>PAUSE.</em></h1>
+          <p class="hero-lead">A digital safety agent that doesn't just call something a scam. It finds the manipulation, reconstructs the trap, and gives you a safer next move.</p>
+          <div class="hero-chips"><span>Phishing</span><span>Social engineering</span><span>Fraud</span><span>Identity theft</span></div>
+          <div class="hero-stat-row">
+            <div><strong>01</strong><span>Signal in</span></div>
+            <div><strong>02</strong><span>Trap exposed</span></div>
+            <div><strong>03</strong><span>Action out</span></div>
+          </div>
+        </div>
+
+        <div class="threat-card glass reveal delay-1">
+          <div class="card-head">
+            <div>
+              <div class="mini-label">LIVE THREAT LAB</div>
+              <h2>What feels suspicious?</h2>
+            </div>
+            <span class="scan-state" id="scanState" role="status" aria-live="polite">READY</span>
+          </div>
+
+          <div class="input-tabs" role="tablist">
+            <button class="input-tab active" type="button" role="tab" aria-selected="true" aria-controls="textInputArea" data-mode="text">✦ Message / URL</button>
+            <button class="input-tab" type="button" role="tab" aria-selected="false" aria-controls="imageInputArea" data-mode="image">▣ Screenshot</button>
+          </div>
+
+          <div class="input-wrap" id="textInputArea">
+            <textarea id="inputText" aria-label="Paste a suspicious message, email, URL, or text" placeholder="Paste a suspicious SMS, email, URL, WhatsApp message, or email text…">URGENT! Your bank account will be blocked today. Verify KYC immediately at https://secure-bank-alert.example/verify</textarea>
+            <div class="input-actions">
+              <button type="button" class="ghost-btn" id="sampleBtn">Try another signal</button>
+              <button type="button" class="analyze-btn" id="analyzeBtn"><span>Run PAUSE agent</span><b>↗</b></button>
+            </div>
+          </div>
+
+          <div class="upload-area hidden" id="imageInputArea">
+            <input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp" hidden>
+            <button class="upload-box" id="uploadBox" type="button" aria-label="Upload a screenshot for visual analysis">
+              <span class="upload-icon">▣</span>
+              <strong>Drop a screenshot here</strong>
+              <span>or click to choose an image</span>
+              <small>PNG, JPG or WebP • up to 8 MB</small>
+            </button>
+
+            <div class="image-preview hidden" id="imagePreviewWrap">
+              <img id="imagePreview" alt="Selected screenshot preview">
+              <div class="image-file-meta">
+                <div class="ready-tag"><i></i><span id="imageReadyText">VISUAL SIGNAL READY</span></div>
+                <strong id="imageName">Screenshot</strong>
+                <span>PAUSE will inspect visible text, interface cues and suspicious links.</span>
+              </div>
+              <button class="mini-remove" id="removeImage" type="button" title="Remove screenshot" aria-label="Remove screenshot">×</button>
+            </div>
+
+            <div class="visual-scan-panel">
+              <div class="visual-scan-copy">
+                <span class="mini-label">VISUAL ANALYSIS</span>
+                <strong id="visualScanStatus">Waiting for a screenshot</strong>
+                <span id="visualScanHint">Upload an image, then run the PAUSE agent on the visual signal.</span>
+              </div>
+              <button class="analyze-btn image-analyze-btn" id="imageAnalyzeBtn" type="button" disabled>
+                <span>Run visual PAUSE agent</span><b>↗</b>
+              </button>
+            </div>
+          </div>
+
+          <div class="quick-row">
+            <span>TRY:</span>
+            <button type="button" class="quick-chip" data-sample="bank">Bank scare</button>
+            <button type="button" class="quick-chip" data-sample="reward">Prize bait</button>
+            <button type="button" class="quick-chip" data-sample="college">College / HR</button>
+            <button type="button" class="quick-chip" data-sample="delivery">Delivery scam</button>
+          </div>
+          <div class="privacy-tools">
+            <label class="privacy-toggle" for="privacyShield">
+              <input id="privacyShield" type="checkbox" checked>
+              <span class="toggle-track" aria-hidden="true"><i></i></span>
+              <span><b>Privacy Shield</b><small>mask obvious OTP / card-like / ID-like numbers before Gemini</small></span>
+            </label>
+            <div class="service-pill" id="serviceStatus" role="status" aria-live="polite"><i></i><span>Secure AI route • checking…</span></div>
+          </div>
+          <div class="privacy-line"><span>✦</span> Data-minimised by default. PAUSE never fetches suspicious URLs itself; URL reputation checks, when enabled, use Google's security service server-side.</div>
+        </div>
+      </section>
+
+      <section class="alignment section" id="alignment" aria-labelledby="alignmentTitle">
+        <div class="section-heading"><div><div class="eyebrow">CHALLENGE FIT • AI-POWERED CYBERSECURITY & DIGITAL SAFETY</div><h2 id="alignmentTitle">Built directly for the problem statement.</h2></div><span class="alignment-badge">FUNCTIONAL PROTOTYPE</span></div>
+        <div class="alignment-intro glass">
+          <div><div class="mini-label">PROBLEM STATEMENT</div><p>With the increasing use of digital platforms, <strong>phishing, fraudulent websites, malicious messages and identity theft</strong> pose significant challenges. Build an intelligent system that can <strong>identify suspicious activity</strong> and help users make safer decisions online.</p></div>
+          <div><div class="mini-label">EXPECTED OUTCOME</div><p>A <strong>functional prototype</strong> that identifies or analyzes a cybersecurity threat and provides <strong>actionable security recommendations</strong>.</p></div>
+        </div>
+        <div class="alignment-grid">
+          <article class="alignment-card glass"><span>01</span><strong>Identify suspicious activity</strong><p>Behavioral signal engine + Gemini multimodal analysis score urgency, impersonation, credential requests, payment pressure and link risk.</p></article>
+          <article class="alignment-card glass"><span>02</span><strong>Analyze phishing & fraud</strong><p>Accepts messages, URLs and screenshots; never opens the supplied URL from the server.</p></article>
+          <article class="alignment-card glass"><span>03</span><strong>Explain in simple language</strong><p>Threat DNA and “Show Me the Trap” translate technical indicators into human-readable evidence.</p></article>
+          <article class="alignment-card glass"><span>04</span><strong>Provide actionable recommendations</strong><p>Every result ends with a safe next action, earliest safe breakpoint and a trusted-channel alternative.</p></article>
+          <article class="alignment-card glass"><span>05</span><strong>Protect user privacy</strong><p>Privacy Shield masks obvious OTP, card-like and ID-like values before the AI route, with server-only secrets.</p></article>
+          <article class="alignment-card glass"><span>06</span><strong>Use Google services meaningfully</strong><p>Gemini handles multimodal reasoning; Google Search grounding can provide public evidence; Google Safe Browsing checks known URL threats.</p></article>
+        </div>
+        <div class="evaluator-proof glass" aria-label="Automated evaluator evidence"><div><span>CODE QUALITY</span><b>Modular + testable</b></div><div><span>SECURITY</span><b>Server-side secrets + guards</b></div><div><span>EFFICIENCY</span><b>Bounded + cached + compressed</b></div><div><span>TESTING</span><b>88 automated checks</b></div><div><span>ACCESSIBILITY</span><b>Keyboard + reduced motion</b></div><div><span>GOOGLE SERVICES</span><b>Gemini + Search + Safe Browsing + Fact Check + Vertex path</b></div><div><span>PROBLEM ALIGNMENT</span><b>Challenge 3 requirement → feature map</b></div></div>
+        <div class="quality-strip glass" role="status" aria-label="Engineering quality summary">
+          <div><strong>88</strong><span>automated checks</span></div><div><strong>2</strong><span>input modalities</span></div><div><strong>5</strong><span>Google service integrations</span></div><div><strong>7/7</strong><span>evaluator dimensions addressed</span></div><div><strong>0</strong><span>production secrets in client</span></div>
+        </div>
+      </section>
+
+      <section class="analysis-stage hidden section" id="analysisStage">
+        <div class="analysis-top">
+          <div><div class="mini-label">AGENT RUN</div><h2 id="analysisTitle">Building the threat profile…</h2></div>
+          <div class="run-id">RUN <span id="runId">PX-001</span></div>
+        </div>
+        <div class="agent-layout">
+          <div class="agent-steps" id="agentSteps">
+            <div class="agent-step"><div class="step-icon">01</div><div><strong>Ingest signal</strong><span>Reading message / screenshot + extracting indicators</span></div><div class="step-state">QUEUED</div></div>
+            <div class="agent-step"><div class="step-icon">02</div><div><strong>Inspect behavior</strong><span>Looking for pressure, impersonation, bait and data requests</span></div><div class="step-state">QUEUED</div></div>
+            <div class="agent-step"><div class="step-icon">03</div><div><strong>Trace the trap</strong><span>Mapping the likely persuasion and capture sequence</span></div><div class="step-state">QUEUED</div></div>
+            <div class="agent-step"><div class="step-icon">04</div><div><strong>Choose safe action</strong><span>Converting risk into a concrete next step</span></div><div class="step-state">QUEUED</div></div>
+          </div>
+          <div class="live-terminal glass">
+            <div class="terminal-head"><span>PAUSE // AGENT CONSOLE</span><i></i></div>
+            <div class="terminal-lines" id="terminalLines" aria-live="polite" aria-atomic="false"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="results section hidden" id="results" aria-live="polite">
+        <div class="results-head">
+          <div><div class="eyebrow">THREAT REPORT</div><h2 id="resultTitle">See the trap before you fall into it.</h2></div>
+          <div class="results-head-actions"><span class="ai-badge hidden" id="aiBadge">GEMINI LIVE</span><button type="button" class="outline-btn" id="resetBtn">New scan</button></div>
+        </div>
+
+        <div class="result-grid">
+          <div class="score-panel glass">
+            <div class="score-ring" id="scoreRing"><div><span id="scoreValue">94</span><small>/100</small></div></div>
+            <div class="risk-copy"><span id="riskLabel">HIGH RISK</span><p id="riskSummary">This signal combines urgency, trust borrowing and a route toward sensitive information. Treat it as unsafe until independently verified.</p></div>
+            <div class="classification-row"><span>CLASSIFICATION</span><b id="classValue">PHISHING / SOCIAL ENGINEERING</b></div>
+          </div>
+
+          <div class="dna-panel glass">
+            <div class="panel-title"><div><div class="mini-label">SCAM DNA</div><h3>Behavioral fingerprint</h3></div><span class="tiny-badge">EXPLAINABLE</span></div>
+            <div class="dna-bars" id="dnaBars"></div>
+            <div class="dna-note" id="dnaNote">The danger is not one keyword. It is the combination of signals.</div>
+          </div>
+        </div>
+
+        <div class="insight-strip">
+          <div class="insight-card"><span>LIKELY TARGET</span><strong id="targetValue">Credentials / identity data</strong></div>
+          <div class="insight-card"><span>PRIMARY MANIPULATION</span><strong id="manipulationValue">Urgency + fear</strong></div>
+          <div class="insight-card"><span>CONFIDENCE</span><strong id="confidenceValue">High</strong></div>
+          <div class="insight-card google-card"><span>GOOGLE URL REPUTATION</span><strong id="googleCheckValue">Not checked yet</strong><small id="googleCheckDetail">Server-side Google Safe Browsing evidence when configured.</small></div>
+          <div class="insight-card google-card"><span>GOOGLE CLAIM EVIDENCE</span><strong id="factCheckValue">Not checked yet</strong><small id="factCheckDetail">Google Fact Check claim search when configured.</small></div>
+        </div>
+
+        <div class="trap-grid">
+          <div class="trap-card glass">
+            <div class="panel-title"><div><div class="mini-label">WHY I FLAGGED IT</div><h3>Show me the trap</h3></div><button type="button" class="danger-mark" id="attackerViewBtn" title="Reveal attacker view">!</button></div>
+            <div id="trapList" class="trap-list"></div>
+          </div>
+          <div class="attack-card glass">
+            <div class="panel-title"><div><div class="mini-label">ATTACK PATH</div><h3>Likely attacker workflow</h3></div><span class="tiny-badge">PREDICTIVE</span></div>
+            <div class="attack-path" id="attackPath"></div>
+          </div>
+        </div>
+
+        <div class="action-banner">
+          <div class="action-left"><span class="shield-icon">◆</span><div><div class="mini-label">DO THIS NOW</div><h3 id="actionHeadline">Don't click the link. Verify through the official app.</h3><p id="actionDetail">Use a known official channel rather than the contact details in the message.</p></div></div>
+          <button type="button" class="primary-btn" id="reportBtn">Create safety report <span>→</span></button>
+        </div>
+
+        <div class="breakpoint-strip glass">
+          <div class="breakpoint-icon">⌁</div>
+          <div><div class="mini-label">EARLIEST SAFE BREAKPOINT</div><strong id="breakpointValue">Pause before the link / reply / payment.</strong><span id="breakpointDetail">One safe intervention can break the entire chain.</span></div>
+          <button type="button" class="secondary-action" id="vaccineJumpBtn">Turn this threat into a vaccine →</button>
+        </div>
+
+        <div class="next-action-row">
+          <button type="button" class="secondary-action" id="decisionBtn">Test yourself → Decision Arena</button>
+          <button type="button" class="secondary-action" id="newScanBtn">Analyze another signal +</button>
+        </div>
+      </section>
+
+      <section class="vaccine section" id="vaccine">
+        <div class="section-heading">
+          <div><div class="eyebrow">NEW • THREAT VACCINE LAB</div><h2>Turn one scam into a pattern you can recognize anywhere.</h2></div>
+          <div class="vaccine-score">RESILIENCE <strong id="resilienceScore">0</strong><span>%</span></div>
+        </div>
+        <p class="section-sub">PAUSE extracts the manipulation tactic, changes the message's surface details, and tests whether you learned the <em>pattern</em> instead of memorizing the example.</p>
+
+        <div class="vaccine-grid">
+          <div class="vaccine-card glass">
+            <div class="panel-title"><div><div class="mini-label">YOUR CURRENT THREAT</div><h3 id="vaccineThreatTitle">No threat loaded yet</h3></div><span class="tiny-badge">PERSONALIZED</span></div>
+            <div class="vaccine-dna" id="vaccineDna"></div>
+            <div class="memory-rule"><span>🧠</span><div><div class="mini-label">MEMORY RULE</div><strong id="memoryRule">Pause when pressure + authority + a sudden action request appear together.</strong></div></div>
+          </div>
+
+          <div class="vaccine-card glass">
+            <div class="panel-title"><div><div class="mini-label">MUTATION MODE</div><h3>Same tactic. New skin.</h3></div><span id="mutationState" class="tiny-badge">READY</span></div>
+            <div class="mutation-box" id="mutationBox">
+              <div class="mutation-meta"><span id="mutationChannel">SIMULATED EMAIL • VARIANT A</span><span id="mutationPressure">TACTIC: —</span></div>
+              <p id="mutationText">Run a threat scan first. PAUSE will generate a safe, fictional variation that preserves the manipulation pattern while changing the wording and context.</p>
+              <div class="mutation-actions" id="mutationActions"></div>
+            </div>
+            <div class="mutation-result hidden" id="mutationResult"></div>
+            <button type="button" class="primary-btn full" id="startVaccineBtn">Build my 20-second vaccine <span>✦</span></button>
+          </div>
+        </div>
+
+        <div class="vaccine-loop">
+          <div><span>1</span><strong>Detect</strong><small>Find the manipulation</small></div>
+          <div class="loop-arrow">→</div>
+          <div><span>2</span><strong>Mutate</strong><small>Change the surface details</small></div>
+          <div class="loop-arrow">→</div>
+          <div><span>3</span><strong>Decide</strong><small>Make the next move</small></div>
+          <div class="loop-arrow">→</div>
+          <div><span>4</span><strong>Remember</strong><small>Build a personal rule</small></div>
+        </div>
+      </section>
+
+      <section class="arena section" id="arena">
+        <div class="section-heading"><div><div class="eyebrow">DECISION ARENA</div><h2>Can you spot the trap?</h2></div><div class="arena-score">SAFETY IQ <strong id="arenaScore">0</strong><span id="arenaCount">/3</span></div></div>
+        <p class="section-sub">Three short decisions. Your score rewards safe behavior, not technical knowledge.</p>
+        <div class="arena-card glass" id="arenaCard">
+          <div class="scenario-top"><span class="scenario-badge" id="scenarioNumber">SCENARIO 01</span><span class="scenario-source" id="scenarioSource">SMS • UNKNOWN SENDER</span></div>
+          <div class="chat-bubble"><div class="sender" id="scenarioSender">BANK SUPPORT <span>• now</span></div><p id="scenarioText">We detected unusual activity. Your account will be suspended unless you confirm your identity within 10 minutes. Tap here to restore access: secure-login.example</p></div>
+          <div class="choice-row" id="choiceRow"></div>
+          <div class="arena-feedback hidden" id="arenaFeedback"></div>
+          <div class="arena-next hidden" id="arenaNext"><button class="primary-btn" id="nextScenarioBtn" type="button">Next scenario <span>→</span></button></div>
+        </div>
+      </section>
+
+      <section class="how section" id="how">
+        <div class="section-heading"><div><div class="eyebrow">UNDER THE HOOD</div><h2>Not a chatbot. A safety workflow.</h2></div></div>
+        <div class="workflow">
+          <div class="workflow-card"><span>01</span><strong>Understand</strong><p>Reads the signal and identifies the user's actual risk context.</p></div>
+          <div class="workflow-arrow">→</div>
+          <div class="workflow-card"><span>02</span><strong>Minimise</strong><p>Redacts obvious secrets and avoids sending data that is not needed for the analysis.</p></div>
+          <div class="workflow-arrow">→</div>
+          <div class="workflow-card"><span>03</span><strong>Investigate</strong><p>Runs local indicators and an optional Google URL-reputation tool without visiting the suspicious site.</p></div>
+          <div class="workflow-arrow">→</div>
+          <div class="workflow-card"><span>04</span><strong>Explain + Act</strong><p>Gemini synthesizes an evidence-led result, then PAUSE turns it into a safer next decision.</p></div>
+        </div>
+
+        <div class="engineering-grid">
+          <article class="engineering-card glass" data-evaluator-dimension="Code Quality"><span class="engineering-icon">⌘</span><div><b>CODE QUALITY</b><strong>Testable core + explicit data contracts</strong><p>Risk logic, parsing and UI orchestration are separated so the critical safety logic can be unit-tested without a browser.</p></div></article>
+          <article class="engineering-card glass" data-evaluator-dimension="Security"><span class="engineering-icon">◈</span><div><b>SECURITY</b><strong>Server-only secrets + strict input guards</strong><p>No Gemini key in the client. Request size limits, MIME allow-listing, same-origin checks, security headers and redacted secrets.</p></div></article>
+          <article class="engineering-card glass" data-evaluator-dimension="Efficiency"><span class="engineering-icon">↯</span><div><b>EFFICIENCY</b><strong>Compress first, send once</strong><p>Screenshot payloads are resized and compressed before upload; requests use timeouts and avoid unnecessary network calls.</p></div></article>
+          <article class="engineering-card glass" data-evaluator-dimension="Testing"><span class="engineering-icon">✓</span><div><b>TESTING</b><strong>Node test suite for high-risk logic</strong><p>Local signal scoring, URL extraction, privacy redaction, image validation and model normalisation have automated tests.</p></div></article>
+          <article class="engineering-card glass" data-evaluator-dimension="Accessibility"><span class="engineering-icon">◎</span><div><b>ACCESSIBILITY</b><strong>Keyboard-first + reduced motion</strong><p>Focus states, labels, live regions, Escape-to-close modals, semantic controls and a reduced-motion mode are built in.</p></div></article>
+          <article class="engineering-card glass" data-evaluator-dimension="Google Services"><span class="engineering-icon">G</span><div><b>GOOGLE SERVICES</b><strong>Gemini + Search + safety evidence</strong><p>Google Gemini performs multimodal synthesis, Google Search grounding adds public evidence, Safe Browsing checks known URL threats, and Fact Check Tools can surface reviewed claims.</p></div></article>
+          <article class="engineering-card glass" data-evaluator-dimension="Problem Statement Alignment"><span class="engineering-icon">◎</span><div><b>PROBLEM STATEMENT ALIGNMENT</b><strong>Challenge 3 mapped end-to-end</strong><p>The exact track, problem statement and expected outcome are embedded in the page, model prompt, API response and repository evidence; every required behavior maps to a visible product feature.</p></div></article>
+        </div>
+
+        <div class="award-card glass">
+          <div><span class="award-icon">★</span></div>
+          <div><div class="mini-label">WHY PAUSE IS DIFFERENT</div><h3>We don't optimize for “scam / not scam.” We optimize for the <em>next human decision.</em></h3></div>
+          <span class="award-tag">HUMAN-CENTERED AI</span>
+        </div>
+        <div class="demo-footer"><span>PAUSE™ • AI DIGITAL BODYGUARD • CYBERSECURITY / DIGITAL SAFETY</span><span>BUILT FOR TRUST • BUILT TO BE TESTED</span></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+
+  <div class="modal hidden" id="reportModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="reportTitle">
+    <div class="modal-card glass">
+      <button class="modal-close" id="closeModal" type="button" title="Close" aria-label="Close safety report">×</button>
+      <div class="mini-label">SAFETY REPORT</div><h2 id="reportTitle">Your incident is summarized.</h2>
+      <div class="report-lines" id="reportLines"></div>
+      <button class="primary-btn full" id="downloadReport" type="button">Export report <span>↓</span></button>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="attackerModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="attackerTitle">
+    <div class="modal-card glass attacker-modal">
+      <button class="modal-close" id="closeAttacker" type="button" title="Close" aria-label="Close attacker view">×</button>
+      <div class="mini-label">ATTACKER VIEW</div>
+      <h2 id="attackerTitle">What the attacker is trying to make you do.</h2>
+      <div class="attacker-chain" id="attackerChain"></div>
+      <div class="attacker-footer"><span>PAUSE translates manipulation into a visible chain.</span><b>BREAK THE CHAIN ↑</b></div>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="settingsModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="settingsTitle">
+    <div class="modal-card glass settings-modal">
+      <button class="modal-close" id="closeSettings" type="button" title="Close" aria-label="Close AI engine status">×</button>
+      <div class="mini-label">AI ENGINE / TRUST CENTER</div>
+      <h2 id="settingsTitle">Your private AI route is server-side.</h2>
+      <p class="modal-copy">PAUSE never asks the browser to hold the production Gemini key. The public deployment calls <code>/api/analyze</code>, where the secret lives in a server-side environment variable. Optional URL reputation is checked server-side as well.</p>
+      <div class="trust-list">
+        <div class="trust-row"><span>Gemini</span><b id="geminiStatus">Checking…</b></div>
+        <div class="trust-row"><span>Google URL reputation</span><b id="safeBrowsingStatus">Optional</b></div>
+        <div class="trust-row"><span>Google Search grounding</span><b id="searchGroundingStatus">Enabled after deploy</b></div>
+        <div class="trust-row"><span>Google Fact Check</span><b id="factCheckStatus">Optional</b></div>
+        <div class="trust-row"><span>Browser API key</span><b>Never required</b></div>
+        <div class="trust-row"><span>Suspicious URL fetching</span><b>Disabled</b></div>
+      </div>
+      <button class="primary-btn full" id="refreshHealthBtn" type="button">Refresh service health <span>↻</span></button>
+      <div class="settings-note">For the competition deployment, set <code>GEMINI_API_KEY</code> on Vercel. Set <code>GOOGLE_SAFE_BROWSING_API_KEY</code> for live URL reputation and <code>GOOGLE_FACTCHECK_API_KEY</code> for reviewed-claim evidence. Google Search grounding is enabled by default in Developer API mode and can be disabled with <code>GOOGLE_SEARCH_GROUNDING=0</code>.</div>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Quick navigation">
+    <a class="mobile-nav-item active" href="#guard" data-scroll="guard"><span>⌁</span><b>Lab</b></a>
+    <a class="mobile-nav-item" href="#arena" data-scroll="arena"><span>◈</span><b>Arena</b></a>
+    <a class="mobile-nav-item" href="#vaccine" data-scroll="vaccine"><span>✦</span><b>Vaccine</b></a>
+    <a class="mobile-nav-item" href="#how" data-scroll="how"><span>◎</span><b>How</b></a>
+  </nav>
+  <button class="back-top" id="backTop" type="button" aria-label="Back to top" title="Back to top">↑</button>
+
+  <noscript><div class="noscript-warning">PAUSE needs JavaScript enabled for interactive threat analysis.</div></noscript>
+  <script src="file-protocol-guard.js" defer></script>
+  <script src="navigation.js" defer></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

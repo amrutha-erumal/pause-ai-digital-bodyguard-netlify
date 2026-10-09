@@ -1,0 +1,31 @@
+# Google Cloud deployment path for PAUSE.
+# Create Secret Manager secrets first; never place secret values here.
+substitutions:
+  _SERVICE: pause-ai
+  _RUN_REGION: asia-south1
+  _VERTEX_LOCATION: global
+
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_SERVICE}:$BUILD_ID', '.']
+  - name: gcr.io/cloud-builders/docker
+    args: ['push', 'gcr.io/$PROJECT_ID/${_SERVICE}:$BUILD_ID']
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - '${_SERVICE}'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/${_SERVICE}:$BUILD_ID'
+      - '--region'
+      - '${_RUN_REGION}'
+      - '--platform'
+      - managed
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'GOOGLE_GENAI_USE_VERTEXAI=true,GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=${_VERTEX_LOCATION},GOOGLE_SEARCH_GROUNDING=1'
+      - '--set-secrets'
+      - 'GEMINI_API_KEY=pause-gemini-api-key:latest,GOOGLE_SAFE_BROWSING_API_KEY=pause-safe-browsing-key:latest,GOOGLE_FACTCHECK_API_KEY=pause-factcheck-key:latest'
+options:
+  logging: CLOUD_LOGGING_ONLY
