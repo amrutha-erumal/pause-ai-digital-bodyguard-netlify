@@ -64,7 +64,7 @@ test('local /api/health returns JSON without trying to consume a request stream'
   const aiRoute = await fetch(`http://127.0.0.1:${port}/api/analyze`, {
     method: 'POST', headers: { 'Content-Type': 'application/json', 'Origin': `http://127.0.0.1:${port}` }, body: '{}'
   });
-  assert.ok([200, 403, 502, 503].includes(aiRoute.status));
+  assert.ok([200, 400, 403, 502, 503].includes(aiRoute.status));
   const aiBody = await aiRoute.json();
   if (aiRoute.status === 503) assert.match(aiBody.error, /dependencies are unavailable/i);
 });

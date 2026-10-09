@@ -1,0 +1,7 @@
+{
+  "name": "PAUSE — AI Digital Bodyguard",
+  "description": "PAUSE — AI-powered cybersecurity and digital safety agent for phishing, fraudulent websites, malicious messages and identity-theft risk. Built with Google Gemini and Google security services.",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
